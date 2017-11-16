@@ -29,29 +29,25 @@ body {
     	font-family: courier;
     }
 
-*/
+
     #hintBox {
-
-      font-family: Arial;
-      font-size: 18px;
-      color: black;
-      background-color: lightblue;
-    }
-
-    #charsUsed {
-      font-size: 24px;
-      font-weight: bold;
+      position: absolute;
+      top: 100px;
+      left: 400px;
       font-family: courier;
-      color: black;
+      font-size: 18px;
+      width: 300px;
     }
 
     #displayStage {
+      top: 320px;
+      position: absolute;
       font-size: 36px;
       font-family: courier;
       font-weight: bold;
     }
 
-/*    #message {
+    #message {
       position: absolute;
       font-size: 24px;
       font-weight: bold;

@@ -4,8 +4,16 @@ $(document).ready(function() {
 		var displayStage;
 		var maxAttempts = 0;
 		var gameStatus   = "start"
-		var artists      = Array("JIMI HENDRIX", "ROLLING STONES", "YOUNG RASCALS","ERIC CLAPTON");
-		var hints        = Array("Are you Experienced?", "They can't get satisfied", "Their Lovin has to be good","He is the main ingredient in Cream")
+		var artists      = ["JIMI HENDRIX",
+                            "ROLLING STONES",
+                            "YOUNG RASCALS",
+                            "ERIC CLAPTON"
+                            ];
+		var hints        = ["Hey Joe, Are you experienced with purple haze?",
+                            "They can't get satisfied",
+                            "Their Lovin has to be good and they like to groove on a Sunday afternoon",
+                            "He was once a bird, then he became the main ingredient in Cream"
+                            ]
 		var userChoice;
 		var message = "";
 		var gameNo       = 4;
@@ -14,6 +22,14 @@ $(document).ready(function() {
 		var previousStatus;
 		var letterUsed = "";
 		var letterFound = "";
+        var hmimg = ["hangman.png",
+                    "hangman1.png",
+                    "hangman2.png",
+                    "hangman3.png",
+                    "hangman4.png",
+                    "hangman5.png",
+                    "hangman6.png"
+                    ]
 
         //image variables
         var displayRow = Array(0,1,1,1,2,2,3);
@@ -78,21 +94,19 @@ if(gameStatus = 'play') {
 		var reg = RegExp(openSelection, "g");
 		displayStage = artistsName.replace(reg, "-");
 
-		document.getElementById("displayStage").innerHTML = displayStage;
-		document.getElementById("hintBox").innerHTML = "<h4>Guest the musical artist - <h4>Hint:</h4> <h4>"+hints[gameNo]+"</h4>";
-		document.getElementById("charsUsed").innerHTML = "Letters Used: " + charsUsed.split("");
-		document.getElementById("message").innerHTML = message;
-		document.getElementById("maxAttempts").innerHTML = "Lives Remaining " +(6 -maxAttempts);
+        $("#displayStage").html(displayStage);
+        $("#hintBox").html("<h4>Hint:</h4> <h4>"+hints[gameNo]+"</h4>");
+
+        $("#charsUsed").html(charsUsed.split(""));
+        $("#message").html(message);
+        $("#maxAttempts").html("Lives Remaining " +(6 -maxAttempts));
 
     }  // end of function update screen
 
     // this function builds the hangmans body
     function updateBody() {
-    	displayMan[displayRow[maxAttempts - 1]] = bodyParts[maxAttempts - 1];
-    	document.getElementById("Line0").innerHTML = displayMan[0];
-    	document.getElementById("Line1").innerHTML = displayMan[1];
-    	document.getElementById("Line2").innerHTML = displayMan[2];
-    	document.getElementById("Line3").innerHTML = displayMan[3];
+
+        $("#Line0").html("<img src='assets/images/"+hmimg[maxAttempts]+"' </img>")
     } // end of function update body
 
     function validateAndProcess() {
@@ -102,18 +116,18 @@ if(gameStatus = 'play') {
 
     		if(charsUsed.search(userChoice) != -1) {
     			message = "This letter has been used before";
-    			document.getElementById("message").style.color = "blue";
+    			$("#message").css('color','blue');
     		} else {
     			charsUsed = charsUsed + userChoice;
 
     			if(artistsName.search(userChoice) != -1) {
     				message = "Yes. we found a hit!!";
     				updateScreen()
-    				document.getElementById("message").style.color = "black";
+    				$("#message").css('color','black')
     			} else {
     				maxAttempts += 1;
     				message = "The letter " + userChoice + " is not in the artists name";
-    				document.getElementById("message").style.color = "red";
+    				$("#message").css('color','red')
     				updateScreen()
     				updateBody();
     			}
@@ -132,7 +146,7 @@ if(gameStatus = 'play') {
     			if(maxAttempts == 6) {
     				displayMan[0] = "@";              				
     				displayMan[1] = "/|\\";
-    				document.getElementById("bodywrap").style.color = "red";
+    				$("#bodywrap").css('color','red')
     			}	
     		} else {
     			message = "You Won - Great Job";		
