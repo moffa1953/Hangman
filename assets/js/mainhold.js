@@ -4,7 +4,6 @@ $(document).ready(function() {
 		var displayStage;
 		var maxAttempts = 0;
 		var gameStatus   = "start"
-
 		var artists      = ["JIMI HENDRIX",
                             "ROLLING STONES",
                             "YOUNG RASCALS",
@@ -23,26 +22,29 @@ $(document).ready(function() {
 		var previousStatus;
 		var letterUsed = "";
 		var letterFound = "";
-        var hmimg          = ["hangman.png",
-                            "hangman1.png",
-                            "hangman2.png",
-                            "hangman3.png",
-                            "hangman4.png",
-                            "hangman5.png",
-                            "hangman6.png"
-                            ]
+        var hmimg = ["hangman.png",
+                    "hangman1.png",
+                    "hangman2.png",
+                    "hangman3.png",
+                    "hangman4.png",
+                    "hangman5.png",
+                    "hangman6.png"
+                    ]
 
-        // //image variables
-        // var displayRow = Array(0,1,1,1,2,2,3);
-        // var bodyParts  = Array(" O "," | ","\\| ","\\|/","/  ","/ \\");
-        // var displayMan = Array(" "," "," "," ");
+        //image variables
+        var displayRow = Array(0,1,1,1,2,2,3);
+        var bodyParts  = Array(" O "," | ","\\| ","\\|/","/  ","/ \\");
+        var displayMan = Array(" "," "," "," ");
 
         if(confirm("Would you like to play the game Hangman?")) {
         	gameStatus = 'play';
         	initGame();
         }
 
-		checkStatus();
+
+	// document.onkeyup = function(event) {
+		checkStatus()
+//		updateScreen()
 
 
 if(gameStatus = 'play') {
@@ -103,7 +105,8 @@ if(gameStatus = 'play') {
 
     // this function builds the hangmans body
     function updateBody() {
-        $("#deadMan").html("<img src='assets/images/"+hmimg[maxAttempts]+"' </img>")
+
+        $("#Line0").html("<img src='assets/images/"+hmimg[maxAttempts]+"' </img>")
     } // end of function update body
 
     function validateAndProcess() {
@@ -160,11 +163,12 @@ if(gameStatus = 'play') {
      switch(gameStatus) {
 
      	case 'new':
-     	      updateScreen();
-         	  var gameStatus = confirm("Would you like to play another game Hangman?")
-     	      break;
+     	updateScreen();
+     	console.log(message)
+     	var gameStatus = confirm("Would you like to play another game Hangman?")
+     	break;
      	case 'end':
-     	      alert("That was the last game - Thanks for playing")
+     	alert("That was the last game - Thanks for playing")
      	break;
      }
 
