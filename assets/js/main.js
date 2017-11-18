@@ -1,9 +1,25 @@
+// instructor note:
+
+// I had one hell of a time with the confirm and alerts. Seems that the last js line prior to
+// the confirms and alerts were not executing. I researched this and the seems to be happening
+// but there was no solution.
+
+// Also the jquery .hide and .empty were not working and I am not sure why, but I solved this problem
+// with a work around. 
+
+// one of the tools I really needed was a way to pause for a prompt - I originally used the confirm, but
+// as I stated above, it caused other problems
+
+
+
+
+
 $(document).ready(function() {
 		// set up global variables
 		var charsUsed = "";
 		var displayStage;
 		var maxAttempts = 0;
-		var gameStatus   = "start"
+		var gameStatus   = "play"
 
 		var artists      = ["JIMI HENDRIX",
                             "ROLLING STONES",
@@ -20,6 +36,7 @@ $(document).ready(function() {
 		var gameNo       = 4;
 		var artistsName;
 		var openSelection;
+        var alertFlag = 0;
 		var previousStatus;
 		var letterUsed = "";
 		var letterFound = "";
@@ -32,25 +49,20 @@ $(document).ready(function() {
                             "hangman6.png"
                             ]
 
-        // //image variables
-        // var displayRow = Array(0,1,1,1,2,2,3);
-        // var bodyParts  = Array(" O "," | ","\\| ","\\|/","/  ","/ \\");
-        // var displayMan = Array(" "," "," "," ");
-
-        if(confirm("Would you like to play the game Hangman?")) {
-        	gameStatus = 'play';
-        	initGame();
-        }
-
+        initGame()
 		checkStatus();
-
 
 if(gameStatus = 'play') {
 
 	document.onkeyup = function(event) {
-		updateScreen()
-		userChoice = event.key;
-		letterType = event.code
+
+                // this will clear the you won you lost images
+                $("#alertBox").html("<img src='assets/images/blank.png'>")
+
+		        updateScreen()
+
+		        userChoice = event.key;
+		        letterType = event.code
 
 	            // test if entry is a valid key
 	            userChoiceValid = letterType.startsWith('Key');
@@ -65,16 +77,15 @@ if(gameStatus = 'play') {
 		} // end of gameStatus play condition
 
 
-		function initGame() {
-			charsUsed    = "";
-			displayStage = "";
-			displayMan = ["","","","",""];
-			maxAttempts  = 0;
-			userChoice   = "";
-			message		 = "";
-			gameNo       = gameNo - 1;        
-			artistsName  = artists[gameNo];
-
+	function initGame() {
+		charsUsed    = "";
+		displayStage = "";
+		// displayMan = ["","","","",""];
+		maxAttempts  = 0;
+		userChoice   = "";
+		message		 = "";
+		gameNo       = gameNo - 1;        
+		artistsName  = artists[gameNo];
         // the following will initially set the display stage to underscores
         openSelection = "[ABCDEFGHIJKLMNOPQRSTUVWXYZ]";
         reg = new RegExp(openSelection, "g");
@@ -107,10 +118,7 @@ if(gameStatus = 'play') {
     } // end of function update body
 
     function validateAndProcess() {
-
     		// check if letter was used before
-
-
     		if(charsUsed.search(userChoice) != -1) {
     			message = "This letter has been used before";
     			$("#message").css('color','blue');
@@ -135,42 +143,44 @@ if(gameStatus = 'play') {
     } // end of function ValidateandProcess
 
     function checkStatus() {	
-
     	if((displayStage == artistsName) || (maxAttempts == 6)) {			
     		gameStatus = 'new';
-    		if(maxAttempts == 6) {					   
+            alertFlag = 1;
+    		if(maxAttempts == 6) {
+
+                $("#alertBox").html("<img src='assets/images/youlost.png'>")
+                $('#alertBox').show				   
     			message = "Sorry - you lost";
-    			if(maxAttempts == 6) {
-    				displayMan[0] = "@";              				
-    				displayMan[1] = "/|\\";
-    				$("#bodywrap").css('color','red')
-    			}	
+                $("#deadMan").html("<img src='assets/images/"+hmimg[maxAttempts]+"'>")
+	
     		} else {
+                $("#alertBox").html("<img src='assets/images/youwon.png'>")
+                $('#alertBox').show
     			message = "You Won - Great Job";		
     		}
     		updateScreen();
 
     		if(gameNo == 0) {
     			gameStatus = 'end'
-    		}
-    		
-
+    		}    		
      } // end of check current game status
 
      switch(gameStatus) {
 
      	case 'new':
      	      updateScreen();
-         	  var gameStatus = confirm("Would you like to play another game Hangman?")
+              var gameStatus = 'true';
      	      break;
      	case 'end':
      	      alert("That was the last game - Thanks for playing")
      	break;
      }
-
         // check if user wants to play another game
+        //console.log(gameStatus);
         if(gameStatus) {
         	initGame();
         }
     }
+
+
 }) //ready

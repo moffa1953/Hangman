@@ -21,14 +21,23 @@
     <div class="jumbotron banner">
       <div id='container'>
         <h1>Rock 'n Roll Hangman</h1>
-        <p>Where bands go to die</p>
+        <p>Where bands go to die (aka: Discount Rack)</p>
         <!--   <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p> -->
       </div>
+
+      <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+          <div id = 'alertBox'></div>
+        </div>
+        <div class="col-sm-4"></div>
+      </div>
+
       <div class = "row">
-        <div class="col-sm-2"></div>
+        <div class="col-sm-1"></div>
 
         <!-- left side of screen -->
-        <div class='col-sm-3'>
+        <div class='col-sm-4'>
 
           <!-- hangman display -->
           <div id = "deadMan"></div>
@@ -36,7 +45,7 @@
           <!-- game answer placeholder -->
           <div id="displayStage"></div>
 
-          <div class="panel panel-danger">
+          <div class="panel panel-info">
               <div id = "maxAttempts" class="panel-body"></div>
           </div>
 
@@ -71,7 +80,8 @@
 
       </div>
 
-    </div>	
+
+</div>
   </body>
 
 </head>
