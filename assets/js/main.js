@@ -19,21 +19,25 @@ $(document).ready(function() {
 		var charsUsed = "";
 		var displayStage;
 		var maxAttempts = 0;
-		var gameStatus   = "play"
+		var gameStatus   = "play";
 
-		var artists      = ["JIMI HENDRIX",
+		var artists      = ["JEFFERSON AIRPLANE",
+                            "JETRO TULL",
+                            "JIMI HENDRIX",
                             "ROLLING STONES",
                             "YOUNG RASCALS",
                             "ERIC CLAPTON"
                             ];
-		var hints        = ["Hey Joe, Are you experienced with purple haze?",
+		var hints        = ["They needed this to fly with the third President",
+                            "They had nothing to do with water, but they did have a aqualung",
+                            "Hey Joe, Are you experienced with purple haze?",
                             "They can't get satisfied",
                             "Their Lovin has to be good and they like to groove on a Sunday afternoon",
                             "He was once a bird, then he became the main ingredient in Cream"
                             ]
 		var userChoice;
 		var message = "";
-		var gameNo       = 4;
+		var gameNo       = 6;
 		var artistsName;
 		var openSelection;
         var alertFlag = 0;
@@ -52,12 +56,22 @@ $(document).ready(function() {
         initGame()
 		checkStatus();
 
-if(gameStatus = 'play') {
+//if(gameStatus = 'play') {
 
 	document.onkeyup = function(event) {
 
+                if(gameStatus == "pause") {
+                    initGame();
+                    checkStatus()
+                    $("#alertBox").html("<img src='assets/images/blank.png'>");
+                }
+
+                if(gameStatus != 'play') {
+                    return
+                }
+
                 // this will clear the you won you lost images
-                $("#alertBox").html("<img src='assets/images/blank.png'>")
+             //   $("#alertBox").html("<img src='assets/images/blank.png'>")
 
 		        updateScreen()
 
@@ -74,7 +88,7 @@ if(gameStatus = 'play') {
 
 	            } // end of UserChoiceValid condition 
 			} // end of keyup
-		} // end of gameStatus play condition
+		//} // end of gameStatus play condition
 
 
 	function initGame() {
@@ -92,6 +106,7 @@ if(gameStatus = 'play') {
         userChoice = "#";
         updateScreen();
         updateBody();
+        gameStatus = 'play';
 
 	} // end of function init game
 
@@ -127,16 +142,18 @@ if(gameStatus = 'play') {
 
     			if(artistsName.search(userChoice) != -1) {
     				message = "Yes. we found a hit!!";
-    				updateScreen()
+    			//	updateScreen()
     				$("#message").css('color','black')
     			} else {
     				maxAttempts += 1;
     				message = "The letter " + userChoice + " is not in the artists name";
     				$("#message").css('color','red')
-    				updateScreen()
-    				updateBody();
+    			//	updateScreen()
+    			//	updateBody();
     			}
     		}
+            updateScreen()
+            updateBody()
     		checkStatus()
     		//charsUsed = charsUsed + userChoice;
 
@@ -144,18 +161,18 @@ if(gameStatus = 'play') {
 
     function checkStatus() {	
     	if((displayStage == artistsName) || (maxAttempts == 6)) {			
-    		gameStatus = 'new';
+    		gameStatus = 'pause';
             alertFlag = 1;
     		if(maxAttempts == 6) {
 
                 $("#alertBox").html("<img src='assets/images/youlost.png'>")
                 $('#alertBox').show				   
     			message = "Sorry - you lost";
-                $("#deadMan").html("<img src='assets/images/"+hmimg[maxAttempts]+"'>")
+                $("#deadMan").html("<img src='assets/images/"+hmimg[6]+"'>");
 	
     		} else {
                 $("#alertBox").html("<img src='assets/images/youwon.png'>")
-                $('#alertBox').show
+                $('#alertBox').show;
     			message = "You Won - Great Job";		
     		}
     		updateScreen();
@@ -164,20 +181,22 @@ if(gameStatus = 'play') {
     			gameStatus = 'end'
     		}    		
      } // end of check current game status
-
      switch(gameStatus) {
 
      	case 'new':
      	      updateScreen();
-              var gameStatus = 'true';
      	      break;
-     	case 'end':
-     	      alert("That was the last game - Thanks for playing")
+     	case 'end':                 
+                $("#alertBox").html("<img src='assets/images/thanks.png'>")
+                $('#alertBox').show;
      	break;
      }
         // check if user wants to play another game
         //console.log(gameStatus);
-        if(gameStatus) {
+
+        console.log(gameStatus)
+        if(gameStatus == 'n') {
+            console.log("i am here")
         	initGame();
         }
     }
